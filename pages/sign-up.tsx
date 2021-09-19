@@ -17,7 +17,7 @@ const SignUp: NextPage = () => {
           p={10}
           maxW="700"
         >
-          <VStack alignItems="flex-start">
+          <VStack>
             <Heading size="xl">Create new account</Heading>
             <Text>
               If you already have an account,{" "}
