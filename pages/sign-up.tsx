@@ -21,7 +21,7 @@ const SignUp: NextPage = () => {
             <Heading size="xl">Create new account</Heading>
             <Text>
               If you already have an account,{" "}
-              <NextLink href="/" passHref>
+              <NextLink href="/sign-in" passHref>
                 <Link fontWeight="700" color="blue.500">
                   click here to log in
                 </Link>
