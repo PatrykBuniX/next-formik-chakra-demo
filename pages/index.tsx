@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import NextLink from "next/link";
-import { Container, Heading, VStack, HStack, Link, Button } from "@chakra-ui/react";
+import { Container, Heading, VStack, HStack, Button } from "@chakra-ui/react";
 
 const Home: NextPage = () => {
   return (
