@@ -19,8 +19,10 @@ const SignUp: NextPage = () => {
           maxW="700"
         >
           <VStack>
-            <Heading size="xl">Create new account</Heading>
-            <Text>
+            <Heading align="center" size="xl">
+              Create new account
+            </Heading>
+            <Text align="center">
               If you already have an account,{" "}
               <NextLink href="/sign-in" passHref>
                 <Link fontWeight="700" color="blue.500">
