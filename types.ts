@@ -5,3 +5,8 @@ export type SignUpFormValues = {
   password: string;
   termsAndConditions: boolean;
 };
+
+export type SignInFormValues = {
+  email: string;
+  password: string;
+};

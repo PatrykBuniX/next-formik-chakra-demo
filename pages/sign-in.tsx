@@ -1,15 +1,44 @@
 import type { NextPage } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Container, Heading, VStack, HStack, Button, Text, Link } from "@chakra-ui/react";
+import { SignInForm } from "../components/forms/SignInForm";
 
-const SignIn: NextPage = () => {
+const SignUp: NextPage = () => {
   return (
-    <main>
-      <h1>Sign in</h1>
-      <Link href="/">
-        <a>back to home</a>
-      </Link>
-    </main>
+    <Container maxW="container.xl" p={0}>
+      <VStack w="full" spacing={20} p={10}>
+        <Heading size="2xl">SignIn Form</Heading>
+        <VStack
+          bgColor="gray.50"
+          boxShadow="md"
+          borderRadius="md"
+          w="full"
+          spacing={10}
+          p={10}
+          maxW="700"
+        >
+          <VStack>
+            <Heading size="xl">Sign in</Heading>
+            <Text>
+              If you don&apos;t have an account,{" "}
+              <NextLink href="/sign-up" passHref>
+                <Link fontWeight="700" color="blue.500">
+                  click here to create one
+                </Link>
+              </NextLink>
+              .
+            </Text>
+          </VStack>
+          <SignInForm />
+        </VStack>
+      </VStack>
+      <NextLink href="/" passHref>
+        <Button as="a" colorScheme="gray" boxShadow="md">
+          Home page
+        </Button>
+      </NextLink>
+    </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;
