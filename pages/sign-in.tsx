@@ -4,9 +4,11 @@ import { Container, Heading, VStack, HStack, Button, Text, Link } from "@chakra-
 import { SignInForm } from "../components/forms/SignInForm";
 
 const SignUp: NextPage = () => {
+  const padding = { base: 6, md: 10 };
+
   return (
     <Container maxW="container.xl" p={0}>
-      <VStack w="full" spacing={20} p={10}>
+      <VStack w="full" spacing={20} p={padding}>
         <Heading size="2xl">SignIn Form</Heading>
         <VStack
           bgColor="gray.50"
@@ -14,7 +16,7 @@ const SignUp: NextPage = () => {
           borderRadius="md"
           w="full"
           spacing={10}
-          p={10}
+          p={padding}
           maxW="700"
         >
           <VStack>
