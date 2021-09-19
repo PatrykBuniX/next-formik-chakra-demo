@@ -29,6 +29,9 @@ export const SignUpForm = () => {
     }
     return errors;
   }
+
+  const colSpanSize = { base: 2, md: 1 };
+
   return (
     <Formik
       validate={validateForm}
@@ -49,10 +52,10 @@ export const SignUpForm = () => {
       {(props) => (
         <Form style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
-            <GridItem colSpan={1}>
+            <GridItem colSpan={colSpanSize}>
               <TextField name="name" labelText="First name" placeholder="John" />
             </GridItem>
-            <GridItem colSpan={1}>
+            <GridItem colSpan={colSpanSize}>
               <TextField name="lastName" labelText="Last name" placeholder="Doe" />
             </GridItem>
             <GridItem colSpan={2}>
