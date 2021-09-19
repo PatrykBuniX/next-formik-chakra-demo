@@ -16,7 +16,9 @@ export const TextField = ({ name, labelText, placeholder, type }: TextFieldProps
     <Field type={type} name={name}>
       {({ field, form }: FieldProps) => (
         <FormControl isInvalid={!!form.touched[name] && !!form.errors[name]}>
-          <FormLabel htmlFor={name}>{labelText}</FormLabel>
+          <FormLabel id={`label-for-${name}`} htmlFor={name}>
+            {labelText}
+          </FormLabel>
           <Input {...field} type={type} id={name} placeholder={placeholder} />
           <FormErrorMessage>{form.errors[name]}</FormErrorMessage>
         </FormControl>
