@@ -11,24 +11,26 @@ export const FormView = ({ children }: FormViewProps) => {
 
   return (
     <Container maxW="container.xl" p={0}>
-      <VStack w="full" spacing={20} p={padding}>
-        <VStack
-          bgColor="gray.50"
-          boxShadow="md"
-          borderRadius="md"
-          w="full"
-          spacing={10}
-          p={padding}
-          maxW="700"
-        >
-          {children}
+      <VStack>
+        <VStack w="full" spacing={20} p={padding}>
+          <VStack
+            bgColor="gray.50"
+            boxShadow="md"
+            borderRadius="md"
+            w="full"
+            spacing={10}
+            p={padding}
+            maxW="700"
+          >
+            {children}
+          </VStack>
         </VStack>
+        <NextLink href="/" passHref>
+          <Button as="a" colorScheme="gray" boxShadow="md">
+            Home page
+          </Button>
+        </NextLink>
       </VStack>
-      <NextLink href="/" passHref>
-        <Button as="a" colorScheme="gray" boxShadow="md">
-          Home page
-        </Button>
-      </NextLink>
     </Container>
   );
 };
