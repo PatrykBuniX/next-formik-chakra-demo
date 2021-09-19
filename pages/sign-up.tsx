@@ -22,7 +22,9 @@ const SignUp: NextPage = () => {
             <Text>
               If you already have an account,{" "}
               <NextLink href="/" passHref>
-                <Link colorScheme="blue">click here to log in</Link>
+                <Link fontWeight="700" color="blue.500">
+                  click here to log in
+                </Link>
               </NextLink>
               .
             </Text>
