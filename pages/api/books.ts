@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
 
 const books = [
   {
@@ -28,5 +29,15 @@ const books = [
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ books });
+  const token = req.headers.authorization?.split(" ")[1];
+  if (token) {
+    jwt.verify(token, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!, (err) => {
+      if (err) {
+        return res.status(403).json({ message: err.message });
+      }
+      res.status(200).json({ books });
+    });
+  } else {
+    res.status(401);
+  }
 }

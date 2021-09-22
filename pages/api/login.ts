@@ -23,7 +23,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (user) {
     const accessToken = jwt.sign(
       { email: user.email, role: user.role },
-      process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!
+      process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!,
+      { expiresIn: "1m" }
     );
 
     res.status(200).json({ accessToken });

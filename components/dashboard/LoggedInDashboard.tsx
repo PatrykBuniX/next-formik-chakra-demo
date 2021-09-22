@@ -25,25 +25,31 @@ export const LoggedInDashboard = ({ accessToken, logout }: Props) => {
       setUserData(null);
       return;
     }
-    const data = jwt.verify(accessToken, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!) as UserInfo;
-    setUserData(data);
+    jwt.verify(accessToken, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!, (err, user) => {
+      if (err) {
+        console.log(err);
+      }
+      const { email, role } = user as UserInfo;
+      setUserData({ email, role });
+    });
   }, [accessToken]);
 
-  const handleClick = () => {
+  const handleLogoutClick = () => {
     logout();
   };
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const data = await getBooks();
-        setBooks(data.books);
-      } catch (err) {
-        if (err instanceof Error) setBooksError(err.message);
+  const handleBooksFetch = async () => {
+    try {
+      const data = await getBooks(accessToken);
+      setBooks(data.books);
+      setBooksError(null);
+    } catch (err) {
+      if (err instanceof Error) {
+        setBooksError(err.message);
+        setBooks([]);
       }
-    };
-    fetchBooks();
-  }, []);
+    }
+  };
 
   if (!userData) return <p>loading...</p>;
 
@@ -52,8 +58,10 @@ export const LoggedInDashboard = ({ accessToken, logout }: Props) => {
       <Text>
         Your are logged in as: {userData.email} ({userData.role})
       </Text>
-      <Button onClick={handleClick}>logout</Button>
+      <Button onClick={handleLogoutClick}>logout</Button>
+      {booksError && <Text color="red.200">{booksError}</Text>}
       <BooksList books={books} />
+      <Button onClick={handleBooksFetch}>fetch books</Button>
     </VStack>
   );
 };
