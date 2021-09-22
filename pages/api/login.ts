@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
+import { refreshTokens } from "../../db";
 
 const users = [
   {
@@ -31,6 +32,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       { email: user.email, role: user.role },
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
+
+    refreshTokens.push(refreshToken);
 
     const expireDate = new Date(Date.now() + 1000 * 60 * 5);
 

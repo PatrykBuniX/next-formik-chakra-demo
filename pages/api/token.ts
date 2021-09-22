@@ -1,10 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
-
-const refreshTokens: string[] = [
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjMyMzE3OTY1fQ._H32gCi-vMKUDlAEWi0VSz3tWBaPIyvFJselWXgttTI",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjMyMzE4MDI2fQ.gFckAfVtzYyGmpku4Pa6isNGmk0K-s-LGqdCAy5Foj8",
-];
+import { refreshTokens } from "../../db";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = req.cookies.refreshToken;
