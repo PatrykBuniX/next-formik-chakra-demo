@@ -3,6 +3,7 @@ import { VStack, Text, Button, UnorderedList, ListItem } from "@chakra-ui/react"
 import jwt from "jsonwebtoken";
 import { getBooks } from "../../api/getBooks";
 import type { Book } from "../../types";
+import { BooksList } from "../books-list/BooksList";
 
 type Props = {
   accessToken: string;
@@ -34,8 +35,12 @@ export const LoggedInDashboard = ({ accessToken, logout }: Props) => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const data = await getBooks();
-      setBooks(data.books);
+      try {
+        const data = await getBooks();
+        setBooks(data.books);
+      } catch (err) {
+        if (err instanceof Error) setBooksError(err.message);
+      }
     };
     fetchBooks();
   }, []);
@@ -48,18 +53,7 @@ export const LoggedInDashboard = ({ accessToken, logout }: Props) => {
         Your are logged in as: {userData.email} ({userData.role})
       </Text>
       <Button onClick={handleClick}>logout</Button>
-      <UnorderedList>
-        {books.map((book) => (
-          <ListItem key={book.title}>
-            <Text>
-              {book.author} - {book.title} ({book.language})
-            </Text>
-            <Text>
-              {book.year}, {book.pages} pages
-            </Text>
-          </ListItem>
-        ))}
-      </UnorderedList>
+      <BooksList books={books} />
     </VStack>
   );
 };
