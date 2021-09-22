@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import type { SignInFormValues } from "../../types";
 import { login } from "../../api/login";
+import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/router";
 
 const validateForm = (values: FormikValues) => {
   const errors: FormikErrors<SignInFormValues> = {};
@@ -20,6 +22,14 @@ const validateForm = (values: FormikValues) => {
 
 export const SignInForm = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
+  const router = useRouter();
+  const { accessToken, setAccessToken } = useAuth();
+
+  useEffect(() => {
+    if (accessToken) {
+      router.push("/");
+    }
+  }, [accessToken, router]);
 
   const handleSubmit = async (
     values: SignInFormValues,
@@ -27,7 +37,7 @@ export const SignInForm = () => {
   ) => {
     try {
       const data = await login(values);
-      console.log(data);
+      setAccessToken(data.accessToken);
       setLoginError(null);
     } catch (err) {
       if (err instanceof Error) {
