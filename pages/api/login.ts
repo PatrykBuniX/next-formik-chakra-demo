@@ -21,7 +21,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (user) {
-    const accessToken = jwt.sign({ email: user.email, role: user.role }, process.env.ACCESS_TOKEN_SECRET!);
+    const accessToken = jwt.sign(
+      { email: user.email, role: user.role },
+      process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!
+    );
 
     res.status(200).json({ accessToken });
   } else {
