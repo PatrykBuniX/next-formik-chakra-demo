@@ -16,7 +16,7 @@ const users = [
   },
 ];
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = JSON.parse(req.body);
   const user = users.find((u) => {
     return u.email === email && u.password === password;
@@ -33,7 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
 
-    prisma.refresh_tokens.create({ data: { token: refreshToken } });
+    await prisma.refresh_tokens.create({ data: { token: refreshToken } });
 
     const expireDate = new Date(Date.now() + 1000 * 60 * 5);
 
