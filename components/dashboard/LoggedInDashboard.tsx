@@ -48,7 +48,7 @@ export const LoggedInDashboard = ({ accessToken, logout }: Props) => {
   if (!userData) return <p>loading...</p>;
 
   return (
-    <VStack>
+    <VStack spacing={10}>
       <Text>
         Your are logged in as: {userData.email} ({userData.role})
       </Text>
