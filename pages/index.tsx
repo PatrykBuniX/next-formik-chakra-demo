@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Heading } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
-import { DashbordView } from "../components/views/DashboardView";
+import { DashbordView } from "../views/DashboardView";
 import { LoggedInDashboard } from "../components/dashboard/LoggedInDashboard";
 import { LoggedOutDashboard } from "../components/dashboard/LoggedOutDashboard";
 

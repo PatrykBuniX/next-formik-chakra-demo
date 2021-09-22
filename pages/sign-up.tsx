@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NextLink from "next/link";
 import { Heading, VStack, Text, Link } from "@chakra-ui/react";
 import { SignUpForm } from "../components/forms/SignUpForm";
-import { FormView } from "../components/views/FormView";
+import { FormView } from "../views/FormView";
 
 const SignUp: NextPage = () => {
   return (
