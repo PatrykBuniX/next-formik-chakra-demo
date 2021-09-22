@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 
 const users = [
   {
@@ -25,6 +26,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       { email: user.email, role: user.role },
       process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!,
       { expiresIn: "1m" }
+    );
+    const refreshToken = jwt.sign(
+      { email: user.email, role: user.role },
+      process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
+    );
+
+    const expireDate = new Date(Date.now() + 1000 * 60 * 5);
+
+    res.setHeader(
+      "Set-Cookie",
+      serialize("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        expires: expireDate,
+      })
     );
 
     res.status(200).json({ accessToken });
