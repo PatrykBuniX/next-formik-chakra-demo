@@ -1,21 +1,42 @@
-import { Formik, Form, FormikValues, FormikErrors } from "formik";
-import { Button, SimpleGrid, GridItem } from "@chakra-ui/react";
+import { useState } from "react";
+import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
+import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import type { SignInFormValues } from "../../types";
+import { login } from "../../api/login";
+
+const validateForm = (values: FormikValues) => {
+  const errors: FormikErrors<SignInFormValues> = {};
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.password) {
+    errors.password = "Password is required";
+  }
+  return errors;
+};
 
 export const SignInForm = () => {
-  function validateForm(values: FormikValues) {
-    const errors: FormikErrors<SignInFormValues> = {};
-    if (!values.email) {
-      errors.email = "Email is required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = "Invalid email address";
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleSubmit = async (
+    values: SignInFormValues,
+    actions: FormikHelpers<SignInFormValues>
+  ) => {
+    try {
+      const data = await login(values);
+      console.log(data);
+      setLoginError(null);
+    } catch (err) {
+      if (err instanceof Error) {
+        setLoginError(err.message);
+      }
     }
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
-    return errors;
-  }
+    actions.setSubmitting(false);
+  };
+
   return (
     <Formik
       validate={validateForm}
@@ -23,12 +44,7 @@ export const SignInForm = () => {
         email: "",
         password: "",
       }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
       {(props) => (
         <Form style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -49,6 +65,11 @@ export const SignInForm = () => {
               >
                 Submit
               </Button>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl isInvalid={!!loginError}>
+                <FormErrorMessage>{loginError}</FormErrorMessage>
+              </FormControl>
             </GridItem>
           </SimpleGrid>
         </Form>
