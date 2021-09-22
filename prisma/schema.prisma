@@ -16,3 +16,7 @@ model books {
   pages    Int
   year     Int
 }
+
+model refresh_tokens {
+  token String @unique
+}

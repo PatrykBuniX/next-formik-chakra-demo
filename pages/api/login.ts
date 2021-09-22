@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
-import { refreshTokens } from "../../db";
+import { prisma } from "../../prisma/client";
 
 const users = [
   {
@@ -33,7 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
 
-    refreshTokens.push(refreshToken);
+    prisma.refresh_tokens.create({ data: { token: refreshToken } });
 
     const expireDate = new Date(Date.now() + 1000 * 60 * 5);
 
