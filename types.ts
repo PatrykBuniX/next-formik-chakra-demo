@@ -10,3 +10,12 @@ export type SignInFormValues = {
   email: string;
   password: string;
 };
+
+export type Book = {
+  author: string;
+  country: string;
+  language: string;
+  pages: number;
+  title: string;
+  year: number;
+};
