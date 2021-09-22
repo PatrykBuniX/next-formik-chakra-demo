@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
 
 const users = [
   {
@@ -20,7 +21,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (user) {
-    res.status(200).json({ email: user.email });
+    const accessToken = jwt.sign({ email: user.email, role: user.role }, process.env.ACCESS_TOKEN_SECRET!);
+
+    res.status(200).json({ accessToken });
   } else {
     res.status(401).json({ message: "Username or password incorrect" });
   }
