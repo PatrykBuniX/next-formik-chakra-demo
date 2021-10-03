@@ -13,6 +13,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(200).json({ books });
     });
   } else {
-    res.status(401);
+    res.status(401).json({ message: "Unauthorized user" });
   }
 }
