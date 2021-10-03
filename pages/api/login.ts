@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
 
-    await prisma.refresh_tokens.create({ data: { token: refreshToken } });
+    await prisma.refreshToken.create({ data: { token: refreshToken } });
 
     const expireDate = new Date(Date.now() + 1000 * 60 * 5);
 

@@ -10,7 +10,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(401).json({ message: "You have to provide refresh token to authenticate!" });
   }
 
-  const foundToken = prisma.refresh_tokens.findUnique({ where: { token } });
+  const foundToken = prisma.refreshToken.findUnique({ where: { token } });
 
   if (!foundToken) {
     return res.status(403).json({ message: "Given refresh token does not exist in database" });

@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       if (err) {
         return res.status(403).json({ message: err.message });
       }
-      const books = await prisma.books.findMany();
+      const books = await prisma.book.findMany();
       res.status(200).json({ books });
     });
   } else {

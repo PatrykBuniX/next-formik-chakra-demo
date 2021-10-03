@@ -5,7 +5,7 @@ import { prisma } from "../../prisma/client";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = req.cookies.refreshToken;
 
-  await prisma.refresh_tokens.delete({ where: { token } });
+  await prisma.refreshToken.delete({ where: { token } });
 
   const expireDate = new Date(Date.now());
 

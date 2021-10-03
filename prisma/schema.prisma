@@ -7,8 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model books {
-  id       Int    @id @default(autoincrement())
+model User {
+  id    Int    @id @default(autoincrement())
+  email  String
+  password  String
+}
+
+
+model Book {
+  id       Int    @id @default(autoincrement()) 
   author   String
   title    String
   country  String
@@ -17,6 +24,6 @@ model books {
   year     Int
 }
 
-model refresh_tokens {
+model RefreshToken {
   token String @unique
 }
