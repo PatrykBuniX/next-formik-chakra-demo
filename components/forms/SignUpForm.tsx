@@ -1,34 +1,39 @@
-import { Formik, Form, FormikValues, FormikErrors } from "formik";
-import { Button, SimpleGrid, GridItem } from "@chakra-ui/react";
-
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useAuth } from "../../context/AuthContext";
+import { register } from "../../api/register";
+import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
+import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import { CheckboxField } from "../form-fields/CheckboxField";
-
 import type { SignUpFormValues } from "../../types";
 
 export const SignUpForm = () => {
-  function validateForm(values: FormikValues) {
-    const errors: FormikErrors<SignUpFormValues> = {};
-    if (!values.name) {
-      errors.name = "First name is required";
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const router = useRouter();
+  const { accessToken, setAccessToken } = useAuth();
+
+  useEffect(() => {
+    if (accessToken) {
+      router.push("/");
     }
-    if (!values.lastName) {
-      errors.lastName = "Last name is required";
+  }, [accessToken, router]);
+
+  const handleSubmit = async (
+    values: SignUpFormValues,
+    actions: FormikHelpers<SignUpFormValues>
+  ) => {
+    try {
+      const data = await register(values);
+      setAccessToken(data.accessToken);
+      setRegisterError(null);
+    } catch (err) {
+      if (err instanceof Error) {
+        setRegisterError(err.message);
+      }
     }
-    if (!values.email) {
-      errors.email = "Email is required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = "Invalid email address";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
-    if (!values.termsAndConditions) {
-      errors.termsAndConditions =
-        "You have to accept terms and conditions if you want to create an account.";
-    }
-    return errors;
-  }
+    actions.setSubmitting(false);
+  };
 
   const colSpanSize = { base: 2, md: 1 };
 
@@ -36,24 +41,19 @@ export const SignUpForm = () => {
     <Formik
       validate={validateForm}
       initialValues={{
-        name: "",
+        firstName: "",
         lastName: "",
         email: "",
         password: "",
         termsAndConditions: false,
       }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
       {(props) => (
         <Form style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
             <GridItem colSpan={colSpanSize}>
-              <TextField name="name" labelText="First name" placeholder="John" />
+              <TextField name="firstName" labelText="First name" placeholder="John" />
             </GridItem>
             <GridItem colSpan={colSpanSize}>
               <TextField name="lastName" labelText="Last name" placeholder="Doe" />
@@ -81,9 +81,37 @@ export const SignUpForm = () => {
                 Submit
               </Button>
             </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl isInvalid={!!registerError}>
+                <FormErrorMessage>{registerError}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
           </SimpleGrid>
         </Form>
       )}
     </Formik>
   );
 };
+
+function validateForm(values: FormikValues) {
+  const errors: FormikErrors<SignUpFormValues> = {};
+  if (!values.firstName) {
+    errors.firstName = "First name is required";
+  }
+  if (!values.lastName) {
+    errors.lastName = "Last name is required";
+  }
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.password) {
+    errors.password = "Password is required";
+  }
+  if (!values.termsAndConditions) {
+    errors.termsAndConditions =
+      "You have to accept terms and conditions if you want to create an account.";
+  }
+  return errors;
+}

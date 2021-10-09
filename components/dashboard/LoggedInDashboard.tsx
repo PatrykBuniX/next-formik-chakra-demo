@@ -18,8 +18,6 @@ export const LoggedInDashboard = () => {
 
   if (!userData) return <p>loading...</p>;
 
-  console.log(userData);
-
   return (
     <VStack spacing={10}>
       <Text>

@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const user = await prisma.user.findFirst({ where: { email, password } });
   if (user) {
     const accessToken = jwt.sign(
-      { email: user.email, role: user.role },
+      { email: user.email },
       process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!,
       { expiresIn: "1m" }
     );
