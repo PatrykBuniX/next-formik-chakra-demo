@@ -19,3 +19,8 @@ export type Book = {
   title: string;
   year: number;
 };
+
+export type User = {
+  email: string;
+  role: "admin" | "member";
+}

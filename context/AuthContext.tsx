@@ -1,10 +1,12 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import type { ReactNode, Dispatch, SetStateAction } from "react";
 import { getAccessToken } from "../api/getAccessToken";
+import { logout } from "../api/logout";
 
 type AuthContextValue = {
   accessToken: string | null;
   setAccessToken: Dispatch<SetStateAction<string | null>>;
+  logOutUser: () => void;
 };
 
 type AuthProviderProps = {
@@ -22,8 +24,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const logOutUser = () => {
+    setAccessToken(null);
+    logout();
+  };
+
   return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ accessToken, setAccessToken, logOutUser }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
