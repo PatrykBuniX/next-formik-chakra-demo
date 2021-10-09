@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       { expiresIn: "1m" }
     );
     const refreshToken = jwt.sign(
-      { email: user.email },
+      { email: user.email, role: user.role },
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
 
