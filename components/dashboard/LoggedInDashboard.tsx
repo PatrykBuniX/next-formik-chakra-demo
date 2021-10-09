@@ -18,9 +18,16 @@ export const LoggedInDashboard = () => {
 
   if (!userData) return <p>loading...</p>;
 
+  console.log(userData);
+
   return (
     <VStack spacing={10}>
-      <Text>Your are logged in as: {userData.email}</Text>
+      <Text>
+        Your are logged in as: {userData.email} ({userData.role})
+      </Text>
+      <Text>
+        {userData.firstName} {userData.lastName}
+      </Text>
       <Button onClick={logOutUser}>logout</Button>
     </VStack>
   );

@@ -14,7 +14,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         if (!me) {
           return res.status(403).json({ message: "User not found" });
         }
-        res.status(200).json({ user: { email: me.email, role: me.role } });
+        console.log("me: ", me);
+        res.status(200).json({
+          user: {
+            email: me.email,
+            role: me.role,
+            firstName: me.firstName,
+            lastName: me.lastName,
+          },
+        });
       }
     });
   } else {
