@@ -4,10 +4,9 @@ import { prisma } from "../../prisma/client";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = req.cookies.refreshToken;
-  console.log("refreshToken: ", req.cookies.refreshToken);
 
   if (!token) {
-    return res.status(401).json({ message: "You have to provide refresh token to authenticate!" });
+    return res.status(401).json({ message: "You are not logged in!" });
   }
 
   const foundToken = prisma.refreshToken.findUnique({ where: { token } });

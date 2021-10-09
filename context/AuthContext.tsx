@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     getAccessToken()
       .then(({ accessToken }) => setAccessToken(accessToken))
-      .catch((err) => console.log("Error: ", err));
+      .catch((err) => console.log(err));
   }, []);
 
   return (

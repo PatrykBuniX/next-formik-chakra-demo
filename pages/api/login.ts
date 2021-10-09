@@ -14,13 +14,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       { expiresIn: "1m" }
     );
     const refreshToken = jwt.sign(
-      { email: user.email, role: user.role },
+      { email: user.email },
       process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
     );
 
     await prisma.refreshToken.create({ data: { token: refreshToken } });
 
-    const expireDate = new Date(Date.now() + 1000 * 60 * 5);
+    const expireDate = new Date(Date.now() + 1000 * 60 * 60); //60 mins from now
 
     res.setHeader(
       "Set-Cookie",
