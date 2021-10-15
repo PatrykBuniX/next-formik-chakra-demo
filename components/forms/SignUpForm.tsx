@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
-import { register } from "../../api/register";
+import { register } from "../../apiHelpers/register";
 import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";

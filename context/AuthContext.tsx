@@ -1,7 +1,7 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import type { ReactNode, Dispatch, SetStateAction } from "react";
-import { getAccessToken } from "../api/getAccessToken";
-import { logout } from "../api/logout";
+import { getAccessToken } from "../apiHelpers/getAccessToken";
+import { logout } from "../apiHelpers/logout";
 
 type AuthContextValue = {
   accessToken: string | null;

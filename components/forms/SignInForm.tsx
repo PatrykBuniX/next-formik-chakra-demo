@@ -3,7 +3,7 @@ import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik"
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import type { SignInFormValues } from "../../types";
-import { login } from "../../api/login";
+import { login } from "../../apiHelpers/login";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
 

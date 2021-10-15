@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { VStack, Text, Button } from "@chakra-ui/react";
-import { getMe } from "../../api/getMe";
+import { getMe } from "../../apiHelpers/getMe";
 import { User } from "../../types";
 import { useAuth } from "../../context/AuthContext";
 
