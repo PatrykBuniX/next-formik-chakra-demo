@@ -24,9 +24,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const logOutUser = () => {
-    setAccessToken(null);
-    logout();
+  const logOutUser = async () => {
+    try {
+      await logout();
+      setAccessToken(null);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

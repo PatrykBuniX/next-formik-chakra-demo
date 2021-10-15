@@ -3,6 +3,7 @@ import { VStack, Text, Button } from "@chakra-ui/react";
 import { getMe } from "../../apiHelpers/getMe";
 import { User } from "../../types";
 import { useAuth } from "../../context/AuthContext";
+import { deleteAccount } from "../../apiHelpers/deleteAccount";
 
 export const LoggedInDashboard = () => {
   const { accessToken, logOutUser } = useAuth();
@@ -13,8 +14,21 @@ export const LoggedInDashboard = () => {
       setUserData(null);
       return;
     }
-    getMe(accessToken).then((data) => setUserData(data.user));
+    getMe(accessToken)
+      .then((data) => setUserData(data.user))
+      .catch(console.log);
   }, [accessToken]);
+
+  const handleAccountDelete = async () => {
+    console.log("Delete!");
+    if (!accessToken) return;
+    try {
+      await deleteAccount(accessToken);
+      logOutUser();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   if (!userData) return <p>loading...</p>;
 
@@ -27,6 +41,9 @@ export const LoggedInDashboard = () => {
         {userData.firstName} {userData.lastName}
       </Text>
       <Button onClick={logOutUser}>logout</Button>
+      <Button colorScheme="red" focusBorderColor="lime" onClick={handleAccountDelete}>
+        Delete account
+      </Button>
     </VStack>
   );
 };
