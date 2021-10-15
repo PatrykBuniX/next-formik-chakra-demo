@@ -1,8 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js + Formik + Chakra UI
 
-## Getting Started
+Project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-First, run the development server:
+## About
+
+At First project was created to learn **Chakra UI**, then I added **Formik**, and created Sign In and Sign Up forms. When forms were created I've decided to add some backend code using **Next.js** api routes to let user register/login.
+
+I've created simple auth with **jwt tokens** (refresh and access tokens) and cookies to keep user logged in on page refresh.
+(Yes I know I shouldn't store user passwords as plain text in DB - I decided not to hash it to make this demo simple.)
+
+User is allowed to:
+
+- login / create new account,
+- stay logged in after refreshing the page (_httpOnly cookie_),
+- logout.
+
+Functionalities not implemented yet:
+
+- delete account,
+- display books for authenticated user,
+- user with `admin` role can add books,
+- generate new access token if it has expired.
+
+## Run project locally:
+
+### Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### Set up your DB:
+
+Make sure have PostgreSQL installed.
+
+Copy `.env.sample` to `.env` and fill `DATABASE_URL` variable with your database details (You can name your db whatever you want).
+
+In my case it looks like this: `DATABASE_URL="postgresql://postgres:secret123@localhost:5432/testapp?schema=public"`
+
+Create `.env.local` file and add secrets for acess and refresh tokens:
+
+```
+NEXT_PUBLIC_ACCESS_TOKEN_SECRET=SuperSecretForAccess
+NEXT_PUBLIC_REFRESH_TOKEN_SECRET=SuperSecretForRefresh
+```
+
+Run migration:
+
+```bash
+npx prisma migrate dev
+```
+
+### Run the development server:
 
 ```bash
 npm run dev
@@ -10,25 +61,4 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Your app should be up and ready on [http://localhost:3000](http://localhost:3000).
