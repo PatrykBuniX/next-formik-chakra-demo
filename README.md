@@ -13,11 +13,11 @@ User is allowed to:
 
 - login / create new account,
 - stay logged in after refreshing the page (_httpOnly cookie_),
-- logout.
+- logout,
+- delete account.
 
 Functionalities not implemented yet:
 
-- delete account,
 - display books for authenticated user,
 - user with `admin` role can add books,
 - generate new access token if it has expired.
