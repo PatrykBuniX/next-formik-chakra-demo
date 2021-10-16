@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../prisma/client";
+import { createAccessToken } from "../../utils/jwt";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = req.cookies.refreshToken;
@@ -21,11 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (user) {
-      const accessToken = jwt.sign(
-        { email: user.email },
-        process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!,
-        { expiresIn: "1m" }
-      );
+      const accessToken = createAccessToken(user.email);
 
       res.json({
         accessToken,

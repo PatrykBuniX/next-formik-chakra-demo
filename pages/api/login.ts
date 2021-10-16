@@ -2,21 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { prisma } from "../../prisma/client";
+import { createAccessToken, createRefreshToken } from "../../utils/jwt";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = JSON.parse(req.body);
 
   const user = await prisma.user.findFirst({ where: { email, password } });
   if (user) {
-    const accessToken = jwt.sign(
-      { email: user.email },
-      process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!,
-      { expiresIn: "1m" }
-    );
-    const refreshToken = jwt.sign(
-      { email: user.email },
-      process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!
-    );
+    const accessToken = createAccessToken(user.email);
+    const refreshToken = createRefreshToken(user.email);
 
     await prisma.refreshToken.create({ data: { token: refreshToken } });
 

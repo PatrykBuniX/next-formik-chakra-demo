@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { prisma } from "../../prisma/client";
+import { createAccessToken, createRefreshToken } from "../../utils/jwt";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password, firstName, lastName } = JSON.parse(req.body);
@@ -17,10 +18,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     data: { email, password, firstName, lastName, role: "member" },
   });
 
-  const accessToken = jwt.sign({ email }, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET!, {
-    expiresIn: "1m",
-  });
-  const refreshToken = jwt.sign({ email }, process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!);
+  const accessToken = createAccessToken(email);
+  const refreshToken = createRefreshToken(email);
 
   await prisma.refreshToken.create({ data: { token: refreshToken } });
 
