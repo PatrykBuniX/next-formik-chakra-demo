@@ -34,6 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ accessToken });
   } else {
-    res.status(401).json({ message: "Username or password incorrect" });
+    res.status(401).json({ message: "Username or password incorrect." });
   }
 }

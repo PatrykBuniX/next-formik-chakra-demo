@@ -12,7 +12,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const foundToken = prisma.refreshToken.findUnique({ where: { token } });
 
   if (!foundToken) {
-    return res.status(403).json({ message: "Given refresh token does not exist in database" });
+    return res.status(403).json({ message: "Given refresh token does not exist in database." });
   }
 
   jwt.verify(token, process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET!, (err, user) => {

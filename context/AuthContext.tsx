@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     getAccessToken()
       .then(({ accessToken }) => setAccessToken(accessToken))
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err.message));
   }, []);
 
   const logOutUser = async () => {
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await logout();
       setAccessToken(null);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

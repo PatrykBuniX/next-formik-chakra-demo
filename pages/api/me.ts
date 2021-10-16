@@ -12,7 +12,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       if (user) {
         const me = await prisma.user.findUnique({ where: { email: user.email } });
         if (!me) {
-          return res.status(403).json({ message: "User not found" });
+          return res.status(403).json({ message: "User not found." });
         }
         console.log("me: ", me);
         res.status(200).json({
@@ -26,6 +26,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }
     });
   } else {
-    res.status(401).json({ message: "Unauthorized user" });
+    res.status(401).json({ message: "Unauthorized user." });
   }
 }

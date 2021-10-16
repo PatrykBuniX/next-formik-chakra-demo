@@ -20,7 +20,6 @@ export const LoggedInDashboard = () => {
   }, [accessToken]);
 
   const handleAccountDelete = async () => {
-    console.log("Delete!");
     if (!accessToken) return;
     try {
       await deleteAccount(accessToken);

@@ -16,6 +16,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }
     });
   } else {
-    res.status(401).json({ message: "Unauthorized user" });
+    res.status(401).json({ message: "Unauthorized user." });
   }
 }
