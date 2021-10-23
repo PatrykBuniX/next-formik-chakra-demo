@@ -4,14 +4,21 @@ import { useAuth } from "../context/AuthContext";
 import { DashbordView } from "../views/DashboardView";
 import { LoggedInDashboard } from "../components/dashboard/LoggedInDashboard";
 import { LoggedOutDashboard } from "../components/dashboard/LoggedOutDashboard";
+import { LoadingDashboard } from "../components/dashboard/LoadingDashboard";
 
 const Home: NextPage = () => {
-  const { accessToken } = useAuth();
+  const { accessToken, isLoading } = useAuth();
 
   return (
     <DashbordView>
       <Heading size="2xl">Next.js + Formik + Chakra UI</Heading>
-      {accessToken ? <LoggedInDashboard /> : <LoggedOutDashboard />}
+      {isLoading ? (
+        <LoadingDashboard />
+      ) : accessToken ? (
+        <LoggedInDashboard />
+      ) : (
+        <LoggedOutDashboard />
+      )}
     </DashbordView>
   );
 };

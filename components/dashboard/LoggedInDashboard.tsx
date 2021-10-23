@@ -29,7 +29,7 @@ export const LoggedInDashboard = () => {
     }
   };
 
-  if (!userData) return <p>loading...</p>;
+  if (!userData) return <p>No user info</p>;
 
   return (
     <VStack spacing={10}>

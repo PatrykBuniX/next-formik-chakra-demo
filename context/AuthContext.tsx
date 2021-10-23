@@ -7,6 +7,7 @@ type AuthContextValue = {
   accessToken: string | null;
   setAccessToken: Dispatch<SetStateAction<string | null>>;
   logOutUser: () => void;
+  isLoading: boolean;
 };
 
 type AuthProviderProps = {
@@ -17,11 +18,21 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAccessToken()
-      .then(({ accessToken }) => setAccessToken(accessToken))
-      .catch((err) => console.error(err.message));
+    const getToken = async () => {
+      try {
+        const { accessToken } = await getAccessToken();
+        setAccessToken(accessToken);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error(err.message);
+        }
+      }
+      setIsLoading(false);
+    };
+    getToken();
   }, []);
 
   const logOutUser = async () => {
@@ -34,7 +45,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken, logOutUser }}>
+    <AuthContext.Provider value={{ accessToken, setAccessToken, logOutUser, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
