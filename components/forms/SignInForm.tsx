@@ -3,9 +3,9 @@ import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik"
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import type { SignInFormValues } from "../../types";
-import { login } from "../../apiHelpers/login";
 import { useRouter } from "next/router";
 import { getAccessToken, setAccessToken } from "../../accessToken";
+import { fetcher } from "../../apiHelpers/fetcher";
 
 export const SignInForm = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -22,7 +22,7 @@ export const SignInForm = () => {
     actions: FormikHelpers<SignInFormValues>
   ) => {
     try {
-      const data = await login(values);
+      const data = await fetcher("/api/login", values);
       setAccessToken(data.accessToken);
       setLoginError(null);
       router.push("/");

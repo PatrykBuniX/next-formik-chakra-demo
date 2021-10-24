@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { register } from "../../apiHelpers/register";
 import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import { CheckboxField } from "../form-fields/CheckboxField";
 import type { SignUpFormValues } from "../../types";
 import { setAccessToken, getAccessToken } from "../../accessToken";
+import { fetcher } from "../../apiHelpers/fetcher";
 
 export const SignUpForm = () => {
   const [registerError, setRegisterError] = useState<string | null>(null);
@@ -23,7 +23,7 @@ export const SignUpForm = () => {
     actions: FormikHelpers<SignUpFormValues>
   ) => {
     try {
-      const data = await register(values);
+      const data = await fetcher("/api/register", values);
       setAccessToken(data.accessToken);
       setRegisterError(null);
       router.push("/");

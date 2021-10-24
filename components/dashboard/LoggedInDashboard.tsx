@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { VStack, Text, Button } from "@chakra-ui/react";
-import { getMe } from "../../apiHelpers/getMe";
-import { getBooks } from "../../apiHelpers/getBooks";
 import { User, Book } from "../../types";
-import { deleteAccount } from "../../apiHelpers/deleteAccount";
-import { logout } from "../../apiHelpers/logout";
 import { BooksList } from "../books-list/BooksList";
 import { setAccessToken, getAccessToken } from "../../accessToken";
 import { useRouter } from "next/router";
+import { fetcher } from "../../apiHelpers/fetcher";
 
 export const LoggedInDashboard = () => {
   const [userData, setUserData] = useState<User | null>(null);
@@ -19,7 +16,7 @@ export const LoggedInDashboard = () => {
       setUserData(null);
       return;
     }
-    getMe(getAccessToken())
+    fetcher("/api/me", null, true)
       .then((data) => setUserData(data.user))
       .catch(console.log);
   }, []);
@@ -27,8 +24,8 @@ export const LoggedInDashboard = () => {
   const handleAccountDelete = async () => {
     if (!getAccessToken()) return;
     try {
-      await deleteAccount(getAccessToken());
-      await logout();
+      await fetcher("/api/delete-account", null, true);
+      await fetcher("/api/logout");
       setAccessToken("");
       router.push("/");
     } catch (e) {
@@ -41,13 +38,13 @@ export const LoggedInDashboard = () => {
       setBooks([]);
       return;
     }
-    getBooks(getAccessToken())
+    fetcher("/api/books", null, true)
       .then(({ books }) => setBooks(books))
       .catch(console.log);
   };
 
   const handleLogoutClick = async () => {
-    await logout();
+    await fetcher("/api/logout");
     setAccessToken("");
     router.push("/");
   };

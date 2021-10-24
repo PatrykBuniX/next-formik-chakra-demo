@@ -6,7 +6,7 @@ import { LoggedOutDashboard } from "../components/dashboard/LoggedOutDashboard";
 import { LoadingDashboard } from "../components/dashboard/LoadingDashboard";
 import { useEffect, useState } from "react";
 import { getAccessToken, setAccessToken } from "../accessToken";
-import { getAccessToken as fetchAccessToken } from "../apiHelpers/getAccessToken";
+import { fetcher } from "../apiHelpers/fetcher";
 
 const Home: NextPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const getToken = async () => {
       try {
-        const { accessToken } = await fetchAccessToken();
+        const { accessToken } = await fetcher("/api/token");
         setAccessToken(accessToken);
       } catch (err) {
         if (err instanceof Error) {
