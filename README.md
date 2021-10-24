@@ -15,10 +15,10 @@ User is allowed to:
 - stay logged in after refreshing the page (_httpOnly cookie_),
 - logout,
 - delete account.
+- display books for authenticated user,
 
 Functionalities not implemented yet:
 
-- display books for authenticated user,
 - user with `admin` role can add books,
 - generate new access token if it has expired.
 
