@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useAuth } from "../../context/AuthContext";
 import { register } from "../../apiHelpers/register";
 import { Formik, Form, FormikValues, FormikErrors, FormikHelpers } from "formik";
 import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { TextField } from "../form-fields/TextField";
 import { CheckboxField } from "../form-fields/CheckboxField";
 import type { SignUpFormValues } from "../../types";
+import { setAccessToken, getAccessToken } from "../../accessToken";
 
 export const SignUpForm = () => {
   const [registerError, setRegisterError] = useState<string | null>(null);
   const router = useRouter();
-  const { accessToken, setAccessToken } = useAuth();
 
   useEffect(() => {
-    if (accessToken) {
+    if (getAccessToken()) {
       router.push("/");
     }
-  }, [accessToken, router]);
+  });
 
   const handleSubmit = async (
     values: SignUpFormValues,
@@ -27,6 +26,7 @@ export const SignUpForm = () => {
       const data = await register(values);
       setAccessToken(data.accessToken);
       setRegisterError(null);
+      router.push("/");
     } catch (err) {
       if (err instanceof Error) {
         setRegisterError(err.message);

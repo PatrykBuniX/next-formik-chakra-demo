@@ -4,19 +4,18 @@ import { Button, SimpleGrid, GridItem, FormControl, FormErrorMessage } from "@ch
 import { TextField } from "../form-fields/TextField";
 import type { SignInFormValues } from "../../types";
 import { login } from "../../apiHelpers/login";
-import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
+import { getAccessToken, setAccessToken } from "../../accessToken";
 
 export const SignInForm = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
-  const { accessToken, setAccessToken } = useAuth();
 
   useEffect(() => {
-    if (accessToken) {
+    if (getAccessToken()) {
       router.push("/");
     }
-  }, [accessToken, router]);
+  });
 
   const handleSubmit = async (
     values: SignInFormValues,
@@ -26,6 +25,7 @@ export const SignInForm = () => {
       const data = await login(values);
       setAccessToken(data.accessToken);
       setLoginError(null);
+      router.push("/");
     } catch (err) {
       if (err instanceof Error) {
         setLoginError(err.message);

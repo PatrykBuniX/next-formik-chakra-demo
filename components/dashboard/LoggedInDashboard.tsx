@@ -3,43 +3,53 @@ import { VStack, Text, Button } from "@chakra-ui/react";
 import { getMe } from "../../apiHelpers/getMe";
 import { getBooks } from "../../apiHelpers/getBooks";
 import { User, Book } from "../../types";
-import { useAuth } from "../../context/AuthContext";
 import { deleteAccount } from "../../apiHelpers/deleteAccount";
+import { logout } from "../../apiHelpers/logout";
 import { BooksList } from "../books-list/BooksList";
+import { setAccessToken, getAccessToken } from "../../accessToken";
+import { useRouter } from "next/router";
 
 export const LoggedInDashboard = () => {
-  const { accessToken, logOutUser } = useAuth();
   const [userData, setUserData] = useState<User | null>(null);
   const [books, setBooks] = useState<Book[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!getAccessToken()) {
       setUserData(null);
       return;
     }
-    getMe(accessToken)
+    getMe(getAccessToken())
       .then((data) => setUserData(data.user))
       .catch(console.log);
-  }, [accessToken]);
+  }, []);
 
   const handleAccountDelete = async () => {
-    if (!accessToken) return;
+    if (!getAccessToken()) return;
     try {
-      await deleteAccount(accessToken);
-      logOutUser();
+      await deleteAccount(getAccessToken());
+      await logout();
+      setAccessToken("");
+      router.push("/");
     } catch (e) {
       console.log(e);
     }
   };
 
   const handleBooksLoad = async () => {
-    if (!accessToken) {
+    if (!getAccessToken()) {
       setBooks([]);
       return;
     }
-    getBooks(accessToken)
+    getBooks(getAccessToken())
       .then(({ books }) => setBooks(books))
       .catch(console.log);
+  };
+
+  const handleLogoutClick = async () => {
+    await logout();
+    setAccessToken("");
+    router.push("/");
   };
 
   if (!userData) return <p>No user info</p>;
@@ -52,7 +62,7 @@ export const LoggedInDashboard = () => {
       <Text>
         {userData.firstName} {userData.lastName}
       </Text>
-      <Button onClick={logOutUser}>Logout</Button>
+      <Button onClick={handleLogoutClick}>Logout</Button>
       <Button colorScheme="red" onClick={handleAccountDelete}>
         Delete account
       </Button>
