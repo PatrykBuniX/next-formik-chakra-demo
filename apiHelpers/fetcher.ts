@@ -5,11 +5,7 @@ type Endpoint = "token" | "login" | "logout" | "register" | "delete-account" | "
 type Url = `/api/${Endpoint}`;
 
 export async function fetcher(endpoint: Url, payload?: any, withAccessToken?: boolean) {
-  const res = await fetch(endpoint, {
-    method: payload ? "POST" : "GET",
-    body: payload && JSON.stringify(payload),
-    headers: withAccessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {},
-  });
+  const res = await makeRequest(endpoint, payload, withAccessToken);
   const data = await res.json();
 
   if (!res.ok) {
@@ -18,16 +14,22 @@ export async function fetcher(endpoint: Url, payload?: any, withAccessToken?: bo
       const { accessToken } = await tokenRes.json();
       setAccessToken(accessToken);
 
-      const res = await fetch(endpoint, {
-        method: payload ? "POST" : "GET",
-        body: payload && JSON.stringify(payload),
-        headers: withAccessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {},
-      });
+      const res = await makeRequest(endpoint, payload, withAccessToken);
       const data = await res.json();
+
       if (!res.ok) throw new Error(data.message);
       return data;
     }
     throw new Error(data.message);
   }
   return data;
+}
+
+async function makeRequest(endpoint: Url, payload?: any, withAccessToken?: boolean) {
+  const res = await fetch(endpoint, {
+    method: payload ? "POST" : "GET",
+    body: payload && JSON.stringify(payload),
+    headers: withAccessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+  });
+  return res;
 }
