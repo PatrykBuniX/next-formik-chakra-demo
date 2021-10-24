@@ -16,11 +16,11 @@ User is allowed to:
 - logout,
 - delete account.
 - display books for authenticated user,
+- generate new access token if it has expired.
 
 Functionalities not implemented yet:
 
 - user with `admin` role can add books,
-- generate new access token if it has expired.
 
 ## Run project locally:
 
