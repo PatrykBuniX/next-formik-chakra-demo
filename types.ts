@@ -11,7 +11,17 @@ export type SignInFormValues = {
   password: string;
 };
 
+export type AddBookFormValues = {
+  author: string;
+  title: string;
+  country: string;
+  language: string;
+  pages: string;
+  year: string;
+};
+
 export type Book = {
+  id: number;
   author: string;
   country: string;
   language: string;

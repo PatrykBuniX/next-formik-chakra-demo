@@ -5,6 +5,7 @@ import { BooksList } from "../books-list/BooksList";
 import { setAccessToken, getAccessToken } from "../../accessToken";
 import { useRouter } from "next/router";
 import { fetcher } from "../../apiHelpers/fetcher";
+import { AddBookForm } from "../forms/AddBookForm";
 
 export const LoggedInDashboard = () => {
   const [userData, setUserData] = useState<User | null>(null);
@@ -63,6 +64,7 @@ export const LoggedInDashboard = () => {
       <Button colorScheme="red" onClick={handleAccountDelete}>
         Delete account
       </Button>
+      {userData.role === "admin" && <AddBookForm setBooks={setBooks} />}
       <BooksList books={books} />
       <Button colorScheme="blue" onClick={handleBooksLoad}>
         Load books

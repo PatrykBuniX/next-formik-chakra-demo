@@ -2,10 +2,8 @@ import { Field } from "formik";
 import type { FieldProps } from "formik";
 import { FormControl, FormLabel, Input, FormErrorMessage } from "@chakra-ui/react";
 
-import type { SignUpFormValues } from "../../types";
-
 type TextFieldProps = {
-  name: keyof SignUpFormValues;
+  name: string;
   labelText: string;
   placeholder?: string;
   type?: string;
