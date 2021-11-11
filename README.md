@@ -17,10 +17,11 @@ User is allowed to:
 - delete account.
 - display books for authenticated user,
 - generate new access token if it has expired.
+- user with `admin` role can add books,
 
 Functionalities not implemented yet:
 
-- user with `admin` role can add books,
+- user with `admin` role can delete books,
 
 ## Run project locally:
 
@@ -62,3 +63,17 @@ yarn dev
 ```
 
 Your app should be up and ready on [http://localhost:3000](http://localhost:3000).
+
+### Tests:
+
+I've implementend End-to-End using [Cypress](https://www.cypress.io/) framework.
+
+Before running any tests **make sure your postgresql database is up and running**, because test runner will try to fill in sign-(up/in) forms and regsiter/login to the app.
+
+Open cypress dashboard using npm script:
+
+```bash
+npm run cypress:open
+# or
+yarn cypress:open
+```
