@@ -55,7 +55,7 @@ export const LoggedInDashboard = () => {
   return (
     <VStack spacing={10}>
       <Text>
-        Your are logged in as: {userData.email} ({userData.role})
+        You are logged in as: {userData.email} ({userData.role})
       </Text>
       <Text>
         {userData.firstName} {userData.lastName}
