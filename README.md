@@ -35,20 +35,20 @@ yarn install
 
 ### Set up your DB:
 
-Make sure have PostgreSQL installed.
+1. Make sure have PostgreSQL installed.
 
-Copy `.env.sample` to `.env` and fill `DATABASE_URL` variable with your database details (You can name your db whatever you want).
+2. Copy `.env.sample` to `.env` and fill `DATABASE_URL` variable with your database details (You can name your db whatever you want).
 
 In my case it looks like this: `DATABASE_URL="postgresql://postgres:secret123@localhost:5432/testapp?schema=public"`
 
-Create `.env.local` file and add secrets for acess and refresh tokens:
+3. Create `.env.local` file and add secrets for acess and refresh tokens:
 
 ```
 NEXT_PUBLIC_ACCESS_TOKEN_SECRET=SuperSecretForAccess
 NEXT_PUBLIC_REFRESH_TOKEN_SECRET=SuperSecretForRefresh
 ```
 
-Run migration:
+4. Run migration:
 
 ```bash
 npx prisma migrate dev
@@ -70,7 +70,7 @@ I've implementend End-to-End using [Cypress](https://www.cypress.io/) framework.
 
 Before running any tests **make sure your postgresql database is up and running**, because test runner will try to fill in sign-(up/in) forms and regsiter/login to the app.
 
-Open cypress dashboard using npm script:
+**Run the development server** and open cypress dashboard using npm script:
 
 ```bash
 npm run cypress:open
