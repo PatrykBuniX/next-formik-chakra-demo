@@ -73,7 +73,6 @@ context("Filling sign-up form", () => {
   });
 
   it("Deletes the user.", () => {
-    cy.visit("http://localhost:3000/");
     cy.contains("Delete account").click();
     cy.visit("http://localhost:3000/");
     cy.contains(`You are logged in as: ${user.email}`).should("not.exist");
